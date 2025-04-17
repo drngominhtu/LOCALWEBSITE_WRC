@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R1 Page</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <main>
@@ -32,105 +33,28 @@
             </div>
 
             <!-- Khu vực biểu đồ -->
-            <div class = "graph">
+            <div class="graph">
                 <!-- Biểu đồ con -->
-                <div class = "subgraph">
-                    <div class = "graphUI">
-                        <div class="graph-container">
-                            <div class="y-axis">
-                                <div class="y-labels">
-                                    <span>100</span>
-                                    <span>75</span>
-                                    <span>50</span>
-                                    <span>25</span>
-                                    <span>0</span>
-                                </div>
-                                <div class="value-labels">
-                                    <!-- Values will be dynamically added here -->
-                                </div>
-                            </div>
-                            <div class="graph-content">
-                                <div class="grid"></div>
-                                <div class="plot-area">
-                                    <!-- Lines will be dynamically added here -->
-                                </div>
-                            </div>
-                            <div class="x-axis">
-                                <div class="x-labels">
-                                    <span>0s</span>
-                                    <span>30s</span>
-                                    <span>60s</span>
-                                    <span>90s</span>
-                                    <span>120s</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class = "addvalsbutton">
-                        <div class="addvalgraph">
-                            <div class="input-field">
-                                <label for="valname">#Valname</label>
-                                <input type="text" id="valname" placeholder="Enter value name">
-                            </div>
-                            <div class="input-field">
-                                <label for="address">#Address</label>
-                                <input type="text" id="address" placeholder="Enter address">
-                            </div>
-                        </div>
-                        <div class="okbutton">
-                            <button>OK</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class = "subgraph1">
-                    <div class = "subgraph1_1">
-                        <div class = "graphUI">
+                <div class="subgraph1">
+                    <div class="subgraph1_1">
+                        <div class="graphUI">
                             <div class="graph-container">
-                                <div class="y-axis">
-                                    <div class="y-labels">
-                                        <span>100</span>
-                                        <span>75</span>
-                                        <span>50</span>
-                                        <span>25</span>
-                                        <span>0</span>
-                                    </div>
-                                    <div class="value-labels">
-                                        <!-- Values will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="graph-content">
-                                    <div class="grid"></div>
-                                    <div class="plot-area">
-                                        <!-- Lines will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="x-axis">
-                                    <div class="x-labels">
-                                        <span>0s</span>
-                                        <span>30s</span>
-                                        <span>60s</span>
-                                        <span>90s</span>
-                                        <span>120s</span>
-                                    </div>
-                                </div>
+                                <canvas id="myLineChartR1"></canvas>
                             </div>
-                        </div>
-
-                        <div class = "addvalsbutton">
-                            <div class="addvalgraph">
-                                <div class="input-field">
-                                    <label for="valname">#Valname</label>
-                                    <input type="text" id="valname" placeholder="Enter value name">
+                            <div class="addvalsbutton">
+                                <div class="addvalgraph">
+                                    <div class="input-field">
+                                        <label for="valname">#Valname</label>
+                                        <input type="text" id="valname" placeholder="Enter value name">
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="address">#Address</label>
+                                        <input type="text" id="address" placeholder="Enter address">
+                                    </div>
                                 </div>
-                                <div class="input-field">
-                                    <label for="address">#Address</label>
-                                    <input type="text" id="address" placeholder="Enter address">
+                                <div class="okbutton">
+                                    <button>OK</button>
                                 </div>
-                            </div>
-                            <div class="okbutton">
-                                <button>OK</button>
                             </div>
                         </div>
                     </div>
@@ -138,9 +62,9 @@
                 </div>
 
                 <!-- Bảng điều khiển -->
-                <div class = "subgraph2">
-                    <div class = "table">
-                        <div class = "exbutton">
+                <div class="subgraph2">
+                    <div class="table">
+                        <div class="exbutton">
                             <ul>
                                 <li>Start</li>
                                 <li>Stop</li>
@@ -149,6 +73,7 @@
                             </ul>
                         </div>
 
+                        <!-- Bảng WatchR1 -->
                         <div class="table1">
                             <h3 class="table-title">WatchR1</h3>
                             <table>
@@ -160,17 +85,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
+                                    <!-- Dữ liệu sẽ được thêm động ở đây -->
                                 </tbody>
                             </table>
                         </div>

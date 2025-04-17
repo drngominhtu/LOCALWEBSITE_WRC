@@ -1,3 +1,6 @@
+// Object để lưu trữ các biểu đồ
+const charts = {};
+
 // Hàm tạo màu ngẫu nhiên
 function generateRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -11,11 +14,10 @@ function generateRandomColor() {
 // Hàm thêm giá trị vào biểu đồ
 function addValueToGraph(graphContainer, valname, address) {
     const valueLabels = graphContainer.querySelector('.value-labels');
-    const plotArea = graphContainer.querySelector('.plot-area');
     const color = generateRandomColor();
 
-    // Đảm bảo valueLabels và plotArea tồn tại
-    if (!valueLabels || !plotArea) {
+    // Đảm bảo valueLabels tồn tại
+    if (!valueLabels) {
         console.error('Graph container is missing required elements.');
         return;
     }
@@ -29,15 +31,43 @@ function addValueToGraph(graphContainer, valname, address) {
     `;
     valueLabels.appendChild(newValueLabel);
 
-    // Thêm dòng tương ứng vào plot-area
-    const newLine = document.createElement('div');
-    newLine.className = 'line';
-    newLine.style.backgroundColor = color;
-    newLine.style.height = '2px'; // Chiều cao ví dụ
-    newLine.style.position = 'absolute';
-    newLine.style.width = '100%'; // Chiều rộng ví dụ
-    newLine.style.top = `${Math.random() * 100}%`; // Vị trí ngẫu nhiên để minh họa
-    plotArea.appendChild(newLine);
+    // Cập nhật dữ liệu cho biểu đồ
+    const chartId = graphContainer.querySelector('canvas').id;
+    const chart = charts[chartId];
+
+    if (chart) {
+        // Thêm dữ liệu mới vào biểu đồ
+        chart.data.datasets.push({
+            label: valname,
+            data: Array.from({ length: chart.data.labels.length }, () => Math.random() * 100),
+            borderColor: color,
+            fill: false
+        });
+        chart.update();
+    } else {
+        console.error(`Chart with ID ${chartId} not found.`);
+    }
+}
+
+// Hàm tạo biểu đồ
+function createChart(canvasId) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0s', '30s', '60s', '90s', '120s'],
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    return chart;
 }
 
 // Hàm thêm biểu đồ con mới
@@ -50,32 +80,9 @@ function addNewSubgraph() {
         <div class="graphUI">
             <button class="delete-graph-btn">Delete</button>
             <div class="graph-container">
-                <div class="y-axis">
-                    <div class="y-labels">
-                        <span>100</span>
-                        <span>75</span>
-                        <span>50</span>
-                        <span>25</span>
-                        <span>0</span>
-                    </div>
-                    <div class="value-labels">
-                        <!-- Các giá trị sẽ được thêm động ở đây -->
-                    </div>
-                </div>
-                <div class="graph-content">
-                    <div class="grid"></div>
-                    <div class="plot-area">
-                        <!-- Các dòng sẽ được thêm động ở đây -->
-                    </div>
-                </div>
-                <div class="x-axis">
-                    <div class="x-labels">
-                        <span>0s</span>
-                        <span>30s</span>
-                        <span>60s</span>
-                        <span>90s</span>
-                        <span>120s</span>
-                    </div>
+                <canvas id="myLineChart${subgraphCount}"></canvas>
+                <div class="value-labels">
+                    <!-- Các giá trị sẽ được thêm động ở đây -->
                 </div>
             </div>
         </div>
@@ -97,10 +104,15 @@ function addNewSubgraph() {
     `;
     subgraph1Container.appendChild(newSubgraph);
 
+    // Tạo biểu đồ mới
+    const canvasId = `myLineChart${subgraphCount}`;
+    charts[canvasId] = createChart(canvasId);
+
     // Thêm chức năng xóa cho biểu đồ con mới
     const deleteBtn = newSubgraph.querySelector('.delete-graph-btn');
     deleteBtn.addEventListener('click', () => {
         newSubgraph.remove();
+        delete charts[canvasId]; // Xóa biểu đồ khỏi object charts
     });
 
     // Thêm chức năng để thêm giá trị vào biểu đồ mới
@@ -128,53 +140,9 @@ function setupAddGraphButton() {
     });
 }
 
-// Hàm xử lý sự kiện nút OK để thêm giá trị vào biểu đồ
-function setupOkButton() {
-    document.querySelectorAll('.addvalsbutton .okbutton button').forEach((button) => {
-        button.addEventListener('click', (event) => {
-            const addValsButton = event.target.closest('.addvalsbutton');
-            const graphUI = addValsButton.previousElementSibling; // Lấy phần tử graphUI liền trước
-            const graphContainer = graphUI.querySelector('.graph-container');
-            const valnameInput = addValsButton.querySelector('#valname');
-            const addressInput = addValsButton.querySelector('#address');
-            const valname = valnameInput.value.trim();
-            const address = addressInput.value.trim();
-
-            if (valname && address) {
-                addValueToGraph(graphContainer, valname, address);
-                valnameInput.value = '';
-                addressInput.value = '';
-            } else {
-                alert('Vui lòng nhập cả tên giá trị và địa chỉ.');
-            }
-        });
-    });
-}
-
-// Hàm xử lý sự kiện cho biểu đồ mặc định (subgraph1_1)
-function setupDefaultGraph() {
-    document.querySelectorAll('.subgraph1_1 .okbutton button').forEach((button) => {
-        button.addEventListener('click', () => {
-            const graphContainer = button.closest('.graphUI').querySelector('.graph-container');
-            const valnameInput = button.closest('.addvalsbutton').querySelector('#valname');
-            const addressInput = button.closest('.addvalsbutton').querySelector('#address');
-            const valname = valnameInput.value.trim();
-            const address = addressInput.value.trim();
-
-            if (valname && address) {
-                addValueToGraph(graphContainer, valname, address);
-                valnameInput.value = '';
-                addressInput.value = '';
-            } else {
-                alert('Vui lòng nhập cả tên giá trị và địa chỉ.');
-            }
-        });
-    });
-}
-
 // Hàm tải dữ liệu từ file data.txt và điền vào bảng
 function loadDataToTables() {
-    fetch('./data.txt') // Đảm bảo đường dẫn tương đối chính xác
+    fetch('./data.txt')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -183,8 +151,8 @@ function loadDataToTables() {
         })
         .then(data => {
             const rows = data.trim().split('\n').slice(1); // Bỏ dòng tiêu đề và loại bỏ khoảng trắng
-            const table1Body = document.querySelector('.table1 tbody'); // Đảm bảo đúng selector
-            const table2Body = document.querySelector('.table2 tbody'); // Đảm bảo đúng selector
+            const table1Body = document.querySelector('.table1 tbody');
+            const table2Body = document.querySelector('.table2 tbody');
 
             if (!table1Body || !table2Body) {
                 console.error('Table elements not found.');
@@ -192,13 +160,13 @@ function loadDataToTables() {
             }
 
             rows.forEach((row, index) => {
-                const [valname, address] = row.split(',').map(item => item.trim()); // Loại bỏ khoảng trắng thừa
+                const [valname, address] = row.split(',').map(item => item.trim());
                 if (valname && address) {
                     const tableRow = `<tr><td>${valname}</td><td>${address}</td></tr>`;
                     if (index % 2 === 0) {
-                        table1Body.innerHTML += tableRow; // Điền vào bảng WatchR1
+                        table1Body.innerHTML += tableRow;
                     } else {
-                        table2Body.innerHTML += tableRow; // Điền vào bảng WatchR2
+                        table2Body.innerHTML += tableRow;
                     }
                 }
             });
@@ -206,12 +174,51 @@ function loadDataToTables() {
         .catch(error => console.error('Error loading data:', error));
 }
 
+// Hàm xử lý sự kiện cho biểu đồ mặc định
+function setupDefaultGraph(graphId, containerSelector) {
+    const graphContainer = document.querySelector(containerSelector);
+    const okButton = graphContainer.querySelector('.okbutton button');
+
+    if (!graphContainer || !okButton) {
+        console.error(`Default graph container or OK button not found for ${graphId}`);
+        return;
+    }
+
+    // Thêm sự kiện cho nút OK
+    okButton.addEventListener('click', () => {
+        const valnameInput = graphContainer.querySelector('#valname');
+        const addressInput = graphContainer.querySelector('#address');
+        const valname = valnameInput.value.trim();
+        const address = addressInput.value.trim();
+
+        if (valname && address) {
+            addValueToGraph(graphContainer.querySelector('.graph-container'), valname, address);
+            valnameInput.value = '';
+            addressInput.value = '';
+        } else {
+            alert('Vui lòng nhập cả tên giá trị và địa chỉ.');
+        }
+    });
+
+    // Tạo biểu đồ mặc định
+    charts[graphId] = createChart(graphId);
+}
+
 // Hàm khởi tạo các sự kiện
 function initialize() {
     setupAddGraphButton();
-    setupOkButton();
-    setupDefaultGraph();
-    loadDataToTables(); // Thêm dòng này
+    loadDataToTables();
+
+    // Thiết lập biểu đồ mặc định cho từng trang
+    if (document.getElementById('myLineChart')) {
+        setupDefaultGraph('myLineChart', '.subgraph1_1');
+    }
+    if (document.getElementById('myLineChartR1')) {
+        setupDefaultGraph('myLineChartR1', '.subgraph1_1');
+    }
+    if (document.getElementById('myLineChartR2')) {
+        setupDefaultGraph('myLineChartR2', '.subgraph1_1');
+    }
 }
 
 // Gọi hàm khởi tạo khi tải trang

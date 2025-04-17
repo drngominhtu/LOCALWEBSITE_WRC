@@ -131,9 +131,12 @@ header {
 .graph-container {
     width: 100%;
     height: 100%;
-    display: flex;
-    min-height: 600px; /* Double the minimum height */
     position: relative;
+}
+
+canvas {
+    width: 100% !important; /* Đảm bảo canvas chiếm toàn bộ chiều rộng */
+    height: 100% !important; /* Đảm bảo canvas chiếm toàn bộ chiều cao */
 }
 
 /* Style cho trục Y */

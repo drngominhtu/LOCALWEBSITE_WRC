@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R2 Page</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <main>
@@ -38,33 +39,7 @@
                     <div class = "subgraph1_1">
                         <div class = "graphUI">
                             <div class="graph-container">
-                                <div class="y-axis">
-                                    <div class="y-labels">
-                                        <span>100</span>
-                                        <span>75</span>
-                                        <span>50</span>
-                                        <span>25</span>
-                                        <span>0</span>
-                                    </div>
-                                    <div class="value-labels">
-                                        <!-- Values will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="graph-content">
-                                    <div class="grid"></div>
-                                    <div class="plot-area">
-                                        <!-- Lines will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="x-axis">
-                                    <div class="x-labels">
-                                        <span>0s</span>
-                                        <span>30s</span>
-                                        <span>60s</span>
-                                        <span>90s</span>
-                                        <span>120s</span>
-                                    </div>
-                                </div>
+                                <canvas id="myLineChartR2"></canvas>
                             </div>
                         </div>
 
@@ -110,17 +85,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
+                                    <!-- Dữ liệu sẽ được thêm động ở đây -->
                                 </tbody>
                             </table>
                         </div>

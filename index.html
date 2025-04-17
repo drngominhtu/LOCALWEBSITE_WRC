@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Web Page</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <main>
@@ -38,73 +39,22 @@
                     <div class = "subgraph1_1">
                         <div class = "graphUI">
                             <div class="graph-container">
-                                <div class="y-axis">
-                                    <div class="y-labels">
-                                        <span>100</span>
-                                        <span>95</span>
-                                        <span>90</span>
-                                        <span>85</span>
-                                        <span>80</span>
-                                        <span>75</span>
-                                        <span>70</span>
-                                        <span>65</span>
-                                        <span>60</span>
-                                        <span>55</span>
-                                        <span>50</span>
-                                        <span>45</span>
-                                        <span>40</span>
-                                        <span>35</span>
-                                        <span>30</span>
-                                        <span>25</span>
-                                        <span>20</span>
-                                        <span>15</span>
-                                        <span>10</span>
-                                        <span>5</span>
-                                        <span>0</span>
-                                    </div>
-                                    <div class="value-labels">
-                                        <!-- Values will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="graph-content">
-                                    <div class="grid"></div>
-                                    <div class="plot-area">
-                                        <!-- Lines will be dynamically added here -->
-                                    </div>
-                                </div>
-                                <div class="x-axis">
-                                    <div class="x-labels">
-                                        <span>0s</span>
-                                        <span>2s</span>
-                                        <span>4s</span>
-                                        <span>6s</span>
-                                        <span>8s</span>
-                                        <span>10s</span>
-                                        <span>12s</span>
-                                        <span>14s</span>
-                                        <span>16s</span>
-                                        <span>18s</span>
-                                        <span>20s</span>
-                                        <span>22s</span>
-                                        
-                                    </div>
-                                </div>
+                                <canvas id="myLineChart"></canvas>
                             </div>
-                        </div>
-    
-                        <div class = "addvalsbutton">
-                            <div class="addvalgraph">
-                                <div class="input-field">
-                                    <label for="valname">#Valname</label>
-                                    <input type="text" id="valname" placeholder="Enter value name">
+                            <div class="addvalsbutton">
+                                <div class="addvalgraph">
+                                    <div class="input-field">
+                                        <label for="valname">#Valname</label>
+                                        <input type="text" id="valname" placeholder="Enter value name">
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="address">#Address</label>
+                                        <input type="text" id="address" placeholder="Enter address">
+                                    </div>
                                 </div>
-                                <div class="input-field">
-                                    <label for="address">#Address</label>
-                                    <input type="text" id="address" placeholder="Enter address">
+                                <div class="okbutton">
+                                    <button>OK</button>
                                 </div>
-                            </div>
-                            <div class="okbutton">
-                                <button>OK</button>
                             </div>
                         </div>
                     </div>
